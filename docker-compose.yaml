@@ -4,8 +4,8 @@ services:
     image: ghcr.io/linuxserver/piwigo
     container_name: piwigo
     environment:
-      - PUID=1000
-      - PGID=100
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - type: bind
         source: ${CONFIG_FOLDER}
@@ -23,8 +23,8 @@ services:
     image: ghcr.io/linuxserver/mariadb
     container_name: piwigodb
     environment:
-      - PUID=1000
-      - PGID=100
+      - PUID=${PUID}
+      - PGID=${PGID}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
