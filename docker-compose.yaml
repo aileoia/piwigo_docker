@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  piwigo:
+    image: ghcr.io/linuxserver/piwigo
+    container_name: piwigo
+    environment:
+      - PUID=1000
+      - PGID=100
+    volumes:
+      - type: bind
+        source: ${CONFIG_FOLDER}
+        target: /config
+      - type: bind
+        source: ${GALLERY_FOLDER}
+        target: /gallery
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    depends_on:
+      - db
+
+  db:
+    image: ghcr.io/linuxserver/mariadb
+    container_name: piwigodb
+    environment:
+      - PUID=1000
+      - PGID=100
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ${DB_FOLDER}
+        target: /var/lib/mysql
